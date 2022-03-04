@@ -1,3 +1,4 @@
+import { CustomerRoutingList } from './customer-routing.list';
 import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
 import { CustomerCreateFormComponent } from './customer-create-form/customer-create-form.component';
 import { CustomerListComponent } from './customer-list/customer-list.component';
@@ -6,15 +7,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: '',
+        path: CustomerRoutingList.routeList().customers.path,
         component: CustomerListComponent
     },
     {
-      path: 'create',
+      path: CustomerRoutingList.routeList().addCustomer.path,
       component: CustomerCreateFormComponent
     },
     {
-      path: 'update/:id',
+      path: `${CustomerRoutingList.routeList().editCustomer.path}/:id`,
       component: CustomerUpdateFormComponent
     }
 ];

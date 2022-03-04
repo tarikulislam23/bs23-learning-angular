@@ -1,9 +1,13 @@
-import { AlertService } from './../../../core/services/app-services/alert.service';
+import { CustomerListRequestAction, CustomerListSuccessAction } from './../../../store-management/actions/customer-action';
+import { CustomerRoutingList } from './../customer-routing.list';
+import { OneColumnLayoutComponent } from './../../../@themes/layout/one-column-layout/one-column-layout.component';
 import { Customers } from './../../../core/dtos/customer/customer-details';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { CustomerService } from './../../../core/services/api-services/customer/customer.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { getCustomerLoaded, getCustomerLoading, getCustomers, RootReducerState } from 'src/app/store-management/reducers';
 
 @Component({
   selector: 'app-customer-list',
@@ -11,6 +15,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
+
+  customerRoutes = CustomerRoutingList.routeList();
 
   subscription: Subscription = new Subscription();
 
@@ -21,23 +27,45 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     private customerService: CustomerService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private alertService: AlertService
+    private layout: OneColumnLayoutComponent,
+    private store: Store<RootReducerState>
     ) { }
 
   ngOnInit(): void {
-    this.getAllCustomers();
+    this.getAllCustomer();
   }
 
   getAllCustomers(){
     this.subscription.add(
       this.customerService.getAllCustomers().subscribe(customers=>{
         this.customerList = customers;
-
         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Loaded', life: 3000});
-
-        console.log(this.customerList);
       })
     );
+  }
+
+  getAllCustomer(){
+
+    const loading$ = this.store.select(getCustomerLoading);
+    const loaded$ = this.store.select(getCustomerLoaded);
+    const getCustomerData = this.store.select(getCustomers);
+
+
+    combineLatest([loading$, loaded$]).subscribe((data)=>{
+      if(!data[0] && !data[1]){
+        this.store.dispatch(new CustomerListRequestAction());
+        this.subscription.add(
+          this.customerService.getAllCustomers().subscribe(customers=>{
+            this.store.dispatch(new CustomerListSuccessAction({data: customers}));
+            // this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Loaded', life: 3000});
+          })
+        );
+      }
+    });
+
+    getCustomerData.subscribe(data=>{
+      this.customerList = Object.assign(this.customerList, data);
+    });
   }
 
   deleteSelectedProducts() {
@@ -47,7 +75,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
 
-            this.alertService.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
+            this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
         }
     });
   }
@@ -58,7 +86,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.alertService.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
+          this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
         }
     });
 }

@@ -1,1 +1,37 @@
-<p>customer-create-form works!</p>
+<p-card styleClass="layout-card">
+
+  <h4>Add new Customer</h4>
+
+  <p-card>
+    <form [formGroup]="customerForm" (ngSubmit)="submitForm()" novalidate>
+      <div class="grid justify-content-center">
+        <div class="col-12 md:col-6">
+          <div class="field">
+            <label for="firstname1">Firstname</label>
+            <input id="firstname1" type="text" class="inputfield w-full" pInputText formControlName="first_name" placeholder="Firstname">
+            <small class="p-error">{{ formErrors?.first_name }}</small>
+          </div>
+
+          <div class="field">
+            <label for="lastname">Lastname</label>
+            <input id="lastname" type="text" class="inputfield w-full" pInputText formControlName="last_name" placeholder="Lastname">
+            <small class="p-error">{{ formErrors?.last_name }}</small>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="text" class="inputfield w-full" pInputText formControlName="email" placeholder="Email Address">
+            <small class="p-error">{{ formErrors?.email }}</small>
+          </div>
+
+          <div class="field text-right">
+            <p-button type="button" (click)="back()" label="Cancel" icon="pi pi-times" iconPos="left" styleClass="p-button-secondary mr-2"></p-button>
+            <p-button type="submit" label="Submit" icon="pi pi-check" iconPos="left"></p-button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-card>
+
+
+</p-card>

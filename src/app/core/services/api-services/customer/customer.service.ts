@@ -17,4 +17,25 @@ export class CustomerService {
     request.endpoint = "";
     return this.httpService.getAll$(request).pipe(map(data => data as Customers[]));
   }
+
+  customerDetails(id: number): Observable<Customers>{
+    const request = new CustomerEntity();
+    request.endpoint = "/";
+    request.data = id;
+    return this.httpService.getById$(request);
+  }
+
+  addCustomer(customerData: Customers): Observable<Customers>{
+    const request = new CustomerEntity();
+    request.endpoint = "";
+    request.data = customerData;
+    return this.httpService.create$(request);
+  }
+
+  editCustomer(customerData: Customers): Observable<Customers>{
+    const request = new CustomerEntity();
+    request.endpoint = `/${customerData.id}`;
+    request.data = customerData;
+    return this.httpService.update$(request);
+  }
 }

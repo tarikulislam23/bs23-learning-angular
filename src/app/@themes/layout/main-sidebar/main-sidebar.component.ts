@@ -1,3 +1,4 @@
+import { CustomerRoutingList } from './../../../presentation/customer/customer-routing.list';
 import { OneColumnLayoutComponent } from './../one-column-layout/one-column-layout.component';
 import { Component, OnInit } from '@angular/core';
 
@@ -23,7 +24,7 @@ export class MainSidebarComponent implements OnInit {
           {
             label: 'Pages',
             items: [
-                {label: 'Customers', icon: 'pi pi-fw pi-id-card', routerLink: ['/customer']},
+                {label: 'Customers', icon: 'pi pi-fw pi-id-card', routerLink: [CustomerRoutingList.routeList().customers.link]},
             ]
           },
           // {

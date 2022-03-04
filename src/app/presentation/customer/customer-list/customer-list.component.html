@@ -2,7 +2,7 @@
 
   <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
-        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"></button>
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" [routerLink]="[customerRoutes.addCustomer.link]"></button>
         <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" [disabled]="!selectedcustomers || !selectedcustomers.length"></button>
     </ng-template>
 
@@ -43,7 +43,7 @@
           <td>{{customer.last_name}}</td>
           <td>{{customer.email}}</td>
           <td class="text-right">
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [routerLink]="[customerRoutes.editCustomer.link, customer.id]"></button>
               <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(customer)"></button>
           </td>
       </tr>

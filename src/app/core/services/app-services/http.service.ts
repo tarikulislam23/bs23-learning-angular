@@ -28,7 +28,7 @@ export class HttpService<T extends BaseEntity>{
 
   update$(entity: T): Observable<any> {
     return this.httpClient
-      .post<any>(entity.apiServer + entity.endpoint, entity.data)
+      .put<any>(entity.apiServer + entity.endpoint, entity.data)
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.httpErrorHandler.handleError(error)

@@ -9,7 +9,6 @@ import { CustomerCreateFormComponent } from './customer-create-form/customer-cre
 import { CustomerUpdateFormComponent } from './customer-update-form/customer-update-form.component';
 import {FileUploadModule} from 'primeng/fileupload';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { AlertService } from 'src/app/core/services/app-services/alert.service';
 
 @NgModule({
   imports: [
@@ -20,7 +19,7 @@ import { AlertService } from 'src/app/core/services/app-services/alert.service';
     ConfirmDialogModule
   ],
   declarations: [CustomerListComponent, CustomerCreateFormComponent, CustomerUpdateFormComponent],
-  providers: [CustomerService,MessageService,ConfirmationService,AlertService],
+  providers: [CustomerService,MessageService,ConfirmationService],
   exports: []
 })
 export class CustomerModule { }
