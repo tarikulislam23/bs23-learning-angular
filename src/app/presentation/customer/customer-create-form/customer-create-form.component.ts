@@ -1,3 +1,4 @@
+import { CustomerAddAction } from './../../../store-management/actions/customer-action';
 import { Router } from '@angular/router';
 import { OneColumnLayoutComponent } from './../../../@themes/layout/one-column-layout/one-column-layout.component';
 import { CustomerService } from './../../../core/services/api-services/customer/customer.service';
@@ -7,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { FormErrorHandler } from './../../../core/services/app-services/formErrorHandler';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { RootReducerState } from 'src/app/store-management/reducers';
 
 @Component({
   selector: 'app-customer-create-form',
@@ -29,7 +32,8 @@ export class CustomerCreateFormComponent implements OnInit {
     public formBuilder: FormBuilder,
     private navigationService: NavigationService,
     private router: Router,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private store: Store<RootReducerState>
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +71,7 @@ export class CustomerCreateFormComponent implements OnInit {
 
     this.createSubscription = this.customerService.addCustomer(customerData).subscribe(response=>{
       console.log(response);
+      this.store.dispatch(new CustomerAddAction({data: response}));
       this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Added', life: 2000});
       this.router.navigateByUrl(`${this.customerRoutes.customers.link}`);
     });

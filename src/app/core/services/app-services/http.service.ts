@@ -37,9 +37,8 @@ export class HttpService<T extends BaseEntity>{
   }
 
   delete$(entity: T): Observable<any> {
-    var command: DeleteEntity = { id: entity.data };
     return this.httpClient
-      .post<any>(entity.apiServer + entity.endpoint, command)
+      .delete<any>(entity.apiServer + entity.endpoint + entity.data)
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.httpErrorHandler.handleError(error)

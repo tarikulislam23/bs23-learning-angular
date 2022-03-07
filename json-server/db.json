@@ -3,32 +3,14 @@
     {
       "id": 1,
       "first_name": "Tarikul",
-      "last_name": "Islam",
-      "email": "tarikul.islam23@brainstation-23.com"
-    },
-    {
-      "id": 2,
-      "first_name": "Topu",
-      "last_name": "Khan",
-      "email": "topu@brainstation-23.com"
-    },
-    {
-      "id": 3,
-      "first_name": "Ann",
-      "last_name": "Smith",
-      "email": "ann@brainstation-23.com"
+      "last_name": "Updated",
+      "email": "tarikul@gmail.com"
     },
     {
       "first_name": "Shishir",
       "last_name": "Newaj",
-      "email": "newaj@gmail.com",
-      "id": 4
-    },
-    {
-      "id": 5,
-      "first_name": "Shoab",
-      "last_name": "Ahmed",
-      "email": "shoaib@gmail.com"
+      "email": "shishir@gmail.com",
+      "id": 2
     }
   ]
 }

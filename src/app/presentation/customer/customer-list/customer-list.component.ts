@@ -1,4 +1,4 @@
-import { CustomerListRequestAction, CustomerListSuccessAction } from './../../../store-management/actions/customer-action';
+import { CustomerListRequestAction, CustomerListSuccessAction, CustomerDeleteAction } from './../../../store-management/actions/customer-action';
 import { CustomerRoutingList } from './../customer-routing.list';
 import { OneColumnLayoutComponent } from './../../../@themes/layout/one-column-layout/one-column-layout.component';
 import { Customers } from './../../../core/dtos/customer/customer-details';
@@ -64,7 +64,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     });
 
     getCustomerData.subscribe(data=>{
-      this.customerList = Object.assign(this.customerList, data);
+      this.customerList = [...data];
     });
   }
 
@@ -80,13 +80,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteProduct(customer: Customers) {
+  deleteCustomer(customer: Customers) {
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + customer.first_name + '?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
+          this.subscription.add(
+            this.customerService.deleteCustomer(customer.id).subscribe(customers=>{
+              this.store.dispatch(new CustomerDeleteAction({id: customer.id}));
+              this.getAllCustomer();
+              this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Deleted', life: 3000});
+            })
+          );
         }
     });
 }

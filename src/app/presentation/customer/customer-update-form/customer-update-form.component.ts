@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Customers } from './../../../core/dtos/customer/customer-details';
 import { FormErrorHandler } from './../../../core/services/app-services/formErrorHandler';
 import { Subscription } from 'rxjs';
@@ -9,6 +10,8 @@ import { OneColumnLayoutComponent } from './../../../@themes/layout/one-column-l
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import {Message} from 'primeng/api';
+import { RootReducerState } from 'src/app/store-management/reducers';
+import { CustomerUpdateAction } from 'src/app/store-management/actions/customer-action';
 
 @Component({
   selector: 'app-customer-update-form',
@@ -37,7 +40,8 @@ export class CustomerUpdateFormComponent implements OnInit {
     private navigationService: NavigationService,
     private router: Router,
     private route: ActivatedRoute,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private store: Store<RootReducerState>
   ) {
     this.subscription.add(
       this.route.paramMap.subscribe(params=> this.customerId = parseInt(params.get("id")))
@@ -101,7 +105,7 @@ export class CustomerUpdateFormComponent implements OnInit {
     const customerData = this.customerForm.value;
 
     this.subscription = this.customerService.editCustomer(customerData).subscribe(response=>{
-      console.log(response);
+      this.store.dispatch(new CustomerUpdateAction({data: response}));
       this.layout.setToastMessage({severity:'success', summary: 'Successful', detail: 'Customer Updated', life: 2000});
       this.router.navigateByUrl(`${this.customerRoutes.customers.link}`);
     });

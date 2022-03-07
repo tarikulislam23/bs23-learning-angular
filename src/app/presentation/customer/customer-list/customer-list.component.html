@@ -44,7 +44,7 @@
           <td>{{customer.email}}</td>
           <td class="text-right">
               <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" [routerLink]="[customerRoutes.editCustomer.link, customer.id]"></button>
-              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(customer)"></button>
+              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCustomer(customer)"></button>
           </td>
       </tr>
   </ng-template>

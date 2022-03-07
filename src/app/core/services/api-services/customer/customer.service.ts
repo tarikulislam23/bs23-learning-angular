@@ -38,4 +38,11 @@ export class CustomerService {
     request.data = customerData;
     return this.httpService.update$(request);
   }
+
+  deleteCustomer(id: number): Observable<Customers>{
+    const request = new CustomerEntity();
+    request.endpoint = "/";
+    request.data = id;
+    return this.httpService.delete$(request);
+  }
 }
